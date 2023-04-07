@@ -1,0 +1,110 @@
+@startuml C
+
+object role #f3bd5d {
+    **PK** id
+    description
+}
+object reason #f3bd5d {
+    **PK** id
+    description
+}
+object session #f3bd5d {
+    **PK** id
+    **FK** user_id
+    start_date_time
+    end_date_time
+    kills
+    deaths 
+    experience
+}
+object report_status #f3bd5d {
+    **PK** id
+    description
+}
+object report_on #f3bd5d {
+    **PK** id
+    **FK** user_id
+    **FK** reporter_id
+    **FK** reason_id
+    **FK** status_id
+    date
+}
+object ban #f3bd5d {
+    **PK** id
+    **FK** penalty_id
+    duration
+    description
+}
+object ban_user #f3bd5d {
+    **PK** id
+    **FK** user_id
+    **FK** ban_id
+    date_time
+}
+object party #f3bd5d { 
+    **PK** id  
+    **FK** leader
+    name
+}
+object invitation #f3bd5d {
+    **PK** **FK** party_id
+    **PK** **FK** user_id
+}
+object request #f3bd5d {
+    **PK** **FK** party_id
+    **PK** **FK** user_id
+}
+object membership #f3bd5d {
+    **PK** **FK** party_id
+    **PK** **FK** user_id
+} 
+object "account" as user #f3bd5d {
+    **PK** id 
+    **FK** role_id
+    **FK** class_id
+    **FK** race_id
+    reg_date
+    nickname
+    password
+}
+object class #f3bd5d {
+    **PK** id 
+    name
+    description
+}
+object penalty #f3bd5d {
+    **PK** id
+    description
+}
+object balance_upd #f3bd5d {
+    **PK** id
+    **FK** user_id 
+    **FK** coin_id
+    date_time
+    change
+}
+object slot #f3bd5d {
+    **PK** id
+    description
+}
+
+user ||--o{ report_on
+user ||--o{ report_on
+user ||--o{ ban_user
+ban ||--o{ ban_user
+user ||--o{ session
+ban ||--|| penalty
+party ||--o{ membership 
+user ||--o{ membership 
+user |o--o{ party
+user ||--o{ balance_upd
+user }o--|| role
+report_on }o--|| reason
+user ||--o{ invitation
+user ||--o{ request
+party ||--o{ invitation
+party ||--o{ request
+user }o--|| class
+report_status |o--o{ report_on
+
+@enduml

@@ -1,0 +1,29 @@
+@startuml schema
+
+allowmixing
+!theme plain
+!include A.pu
+!include B.pu
+!include C.pu
+
+skinparam packageStyle rectangle
+skinparam linetype ortho
+
+rarity ||--|{ price
+
+item |o--o{ user_loot
+item |o--o{ dropped_item
+item |o--o{ merchant_offer
+item |o--o{ quest_reward
+item |o--o{ chest_loot
+item |o--o{ enemy_loot
+
+balance_upd }o--|| coin
+enemy_stat }o--|| property
+drop_rate }o--|| rarity
+user }o--|| race 
+user ||--o{ user_loot
+user_loot }o--|| slot
+def_character_stat }|--|| class
+
+@enduml

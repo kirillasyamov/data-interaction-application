@@ -1,0 +1,165 @@
+@startuml B 
+
+object discount #f99a7e {
+    **PK** **FK** item_id
+    **PK** **FK** event_id
+    discount
+}
+object event #f99a7e {
+    **PK** id
+    name
+    start_date
+    end_date
+    description
+}
+object item #b69d9d {
+    **PK** id
+    **FK** resurce_id
+    **FK** recipe_id
+    **FK** potion_id
+    **FK** weapon_id
+    **FK** armor_id
+    **FK** treasure_id
+}
+object rarity #f99a7e { 
+    **PK** id 
+    name
+}
+object recipe_resource #f99a7e {
+    **PK** **FK** recipe_id
+    **PK** **FK** resource_id
+}
+object "recipe_detail" as recipe #b69d9d  {
+    **PK** id
+    **FK** rarity_id
+    **FK** item_id
+    name
+    description
+}
+object "treasure_detail" as treasure #b69d9d  {
+    **PK** id
+    **FK** rarity_id
+    name
+    description
+}
+object "armor_detail" as armor #b69d9d  {
+    **PK** id
+    **FK** class_id
+    **FK** type_id
+    **FK** skin_id
+    **FK** rarity_id
+    name
+    description
+}
+object "weapon_detail" as weapon #b69d9d  {
+    **PK** id
+    **FK** class_id
+    **FK** type_id
+    **FK** skin_id
+    **FK** rarity_id
+    name
+    description
+}
+object "resource_detail" as resource #b69d9d {
+    **PK** id
+    **FK** rarity_id
+    name
+    description
+}
+object skin #f99a7e {
+    **PK** id
+    name
+    color_one
+    color_two
+}
+object "potion_detail" as potion #b69d9d {
+    **PK** id
+    **FK** rarity_id
+    name
+    description
+}
+object armor_type #f99a7e {
+    **PK** id
+    name
+    description
+}
+object armor_class #f99a7e {
+    **PK** id
+    name
+    description
+}
+object weapon_type #f99a7e {
+    **PK** id
+    name
+    description
+}
+object weapon_class #f99a7e {
+    **PK** id
+    name
+    description
+}
+object potion_impact #f99a7e  {
+    **PK** **FK** potion_id
+    **PK** **FK** property_id
+    gain
+    action_time
+}
+object property #f99a7e  {
+    **PK** id
+    name
+    description
+}  
+object def_weapon_stat #f99a7e {
+    **PK** **FK** type_id
+    **PK** **FK** class_id
+    **FK** property_id
+    def_value
+}
+
+object def_armor_stat #f99a7e {
+    **PK** **FK** type_id
+    **PK** **FK** class_id
+    **FK** property_id
+    def_value
+}
+object def_character_stat #f99a7e {
+    **PK** **FK** race_id
+    **PK** **FK** class_id
+    **PK** **FK** property_id
+    def_value
+}
+
+property ||--o{ def_character_stat
+property ||--o{ def_armor_stat
+property ||--o{ def_weapon_stat
+def_armor_stat }|--|| armor_class
+def_armor_stat }|--|| armor_type
+def_weapon_stat }|--|| weapon_class
+def_weapon_stat }|--|| weapon_type
+discount }o--|| event
+item ||--o{ discount
+item ||--|| treasure
+item ||--|| resource
+item ||--|| recipe
+item ||--|| armor
+item ||--|| weapon
+item ||--|| potion
+rarity ||--o{ treasure
+rarity ||--o{ resource
+rarity ||--o{ recipe
+rarity ||--o{ armor
+rarity ||--o{ weapon
+rarity ||--o{ potion
+weapon }|--|| weapon_class
+weapon }|--|| weapon_type
+armor }|--|| armor_class
+armor }|--|| armor_type
+property ||--o{ potion_impact
+potion ||--|{ potion_impact
+resource ||--|{ recipe_resource
+recipe ||--|{ recipe_resource
+recipe }o--|| item
+armor }o--|| skin
+weapon }o--|| skin
+
+@enduml

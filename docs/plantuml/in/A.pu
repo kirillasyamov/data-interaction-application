@@ -1,0 +1,135 @@
+@startuml A
+
+object merchant #84aaa6 {
+    **PK** id  
+    **FK** loc_id
+    name
+    description
+}
+object quest #84aaa6 {
+    **PK** id
+    name
+    description
+}
+object chest #84aaa6 {
+    **PK** id
+    **FK** loc_id
+    **FK** type_id
+}
+object chest_type #84aaa6 {
+    **PK** id 
+    size 
+    displacement
+    description
+}
+object location #84aaa6 {
+    **PK** id
+    name
+    description
+}
+object enemy_location #84aaa6 {
+    **PK** **FK** enemy_id
+    **PK** **FK** loc_id
+    spawn_rate
+}
+object enemy #84aaa6 {
+    **PK** id
+    name
+    experience
+    description
+}
+object enemy_stat #84aaa6 {
+    **PK** **FK** enemy_id
+    **PK** **FK** property_id 
+    value
+}
+object coin #84aaa6 {
+    **PK** id
+    name 
+}
+object price #84aaa6 {
+    **PK** **FK** rarity_id 
+    **PK** **FK** coin_id
+    cost 
+}
+object drop_rate #84aaa6  {
+    **PK** **FK** chest_type_id
+    **PK** **FK** loot_rarity_id
+    probability
+}
+object npc #84aaa6 {
+    **PK** id
+    **Fk** type_id
+    **FK** race_id
+    **FK** loc_id
+    sex 
+    age
+    name
+}
+object race #84aaa6 {
+    **PK** id
+    name
+    description
+}
+object npc_type #84aaa6 {
+    **PK** id
+    description
+}
+object quest_npc #84aaa6 {
+    **PK** **FK** quest_id
+    **PK** **FK** mpc_id
+    speech
+}
+object quest_reward #6dc755 {
+    **PK** **FK** quest_id
+    **PK** **FK** item_id
+    number
+}
+object merchant_offer #6dc755 {
+    **PK** **FK** merchant_id
+    **PK** **FK** item_id
+    margin
+}
+object chest_loot #6dc755 {
+    **PK** **FK** chest_id
+    **PK** slot_id
+    **FK** item_id
+    number
+}
+object dropped_item #6dc755 {
+    **PK** id
+    **FK** location_id
+    **FK** item_id
+}
+object user_loot #6dc755 {
+    **PK** **FK** user_id
+    **PK** **FK** item_id
+    **FK** slot_id
+    number
+}
+object enemy_loot #6dc755 {
+    **PK** **FK** enemy_id
+    **PK** **FK** item_id
+    drop_rate
+}
+
+drop_rate }|--|| chest_type
+chest }|--|| chest_type
+chest ||--o{ chest_loot
+coin ||--o{ price
+enemy_location }|--|| enemy
+enemy_location }o--|| location
+dropped_item }o--|| location
+enemy ||--|{ enemy_stat
+enemy ||--|{ enemy_loot
+quest ||--|{ quest_reward
+merchant ||--|{ merchant_offer
+npc }o--|| location
+quest_npc }|--|| npc
+quest_npc }|--|| quest
+npc }|--|| npc_type
+npc }|--|| race
+merchant }o--|| location
+chest }o--|| location
+
+@enduml
